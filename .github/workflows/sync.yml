@@ -23,6 +23,7 @@ jobs:
         author_name: Bot
         branch: main
         commit: true
+        force: true
         commit_message: "[skip ci] Updated changes by gitea bot"
         remote: git@github.com:aleskucera/public-repo.git
         ssh_key: ${{ secrets.DEPLOY_KEY }}
