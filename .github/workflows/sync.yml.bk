@@ -1,0 +1,32 @@
+name: Sync to Public Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout private repo
+      uses: actions/checkout@v3
+      with:
+        repository: aleskucera/private-repo
+        token: ${{ secrets.PUBLIC_REPO_TOKEN }}
+    
+    - name: git push changes
+      uses: appleboy/git-push-action@v0.0.2
+      with:
+        author_email: kuceral4@fel.cvut.cz
+        author_name: Bot
+        branch: main
+        commit: true
+        force: true
+        commit_message: "[skip ci] Updated changes by gitea bot"
+        remote: git@github.com:aleskucera/public-repo.git
+        ssh_key: ${{ secrets.DEPLOY_KEY }}
+
+ 
+
