@@ -30,6 +30,10 @@ jobs:
         git remote add public https://${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/aleskucera/public-repo.git
         git remote -v  # Debug: List remotes
 
+    - name: Fetch latest from public repo
+      run: |
+        git fetch public main  # Debug: Fetch from public repo
+
     - name: Debug remote access
       run: |
         git ls-remote public  # Debug: Check remote access
