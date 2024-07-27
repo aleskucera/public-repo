@@ -11,9 +11,10 @@ jobs:
 
     steps:
     - name: Checkout private repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: aleskucera/private-repo
+        token: ${{ secrets.PUBLIC_REPO_TOKEN }}
 
     - name: Set up Git
       run: |
@@ -26,7 +27,7 @@ jobs:
 
     - name: Add public repo remote
       run: |
-        git remote add public https://x-access-token:${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/aleskucera/public-repo.git
+        git remote add public https://github.com/aleskucera/public-repo.git
         git remote -v  # Debug: List remotes
 
     - name: Debug remote access
@@ -36,5 +37,5 @@ jobs:
 
     - name: Push to public repo
       run: |
-        git push public main --force
+        git push public main
 
