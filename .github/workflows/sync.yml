@@ -15,34 +15,17 @@ jobs:
       with:
         repository: aleskucera/private-repo
         token: ${{ secrets.PUBLIC_REPO_TOKEN }}
+    
+    - name: git push changes
+      uses: appleboy/git-push-action@v0.0.2
+      with:
+        author_email: kuceral4@fel.cvut.cz
+        author_name: Bot
+        branch: main
+        commit: true
+        commit_message: "[skip ci] Updated changes by gitea bot"
+        remote: git@github.com:aleskucera/public-repo.git
+        ssh_key: ${{ secrets.DEPLOY_KEY }}
 
-    - name: Set up Git
-      run: |
-        git config --global user.name 'Aleš Kučera'
-        git config --global user.email 'kuceral4@fel.cvut.cz'
-
-    - name: Authenticate with GitHub Token
-      run: echo "${{ secrets.PUBLIC_REPO_TOKEN }}"  # Debug: Ensure token is available
-      shell: bash
-
-    - name: Add public repo remote
-      run: |
-        git remote add public https://${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/aleskucera/public-repo.git
-        git remote -v  # Debug: List remotes
-
-    - name: Fetch latest from public repo
-      run: |
-        git fetch public main  # Debug: Fetch from public repo
-
-    - name: Debug remote access
-      run: |
-        git ls-remote public  # Debug: Check remote access
- 
-
-    - name: Push to public repo
-      run: |
-        git push public main --force
-      env:
-        PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
  
 
