@@ -27,7 +27,7 @@ jobs:
 
     - name: Add public repo remote
       run: |
-        git remote add public https://github.com/aleskucera/public-repo.git
+        git remote add public https://${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/aleskucera/public-repo.git
         git remote -v  # Debug: List remotes
 
     - name: Debug remote access
@@ -38,4 +38,6 @@ jobs:
     - name: Push to public repo
       run: |
         git push public main --force
+      env:
+        PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
 
