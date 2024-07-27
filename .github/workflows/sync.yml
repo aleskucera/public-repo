@@ -19,22 +19,23 @@ jobs:
       run: |
         git config --global user.name 'Aleš Kučera'
         git config --global user.email 'kuceral4@fel.cvut.cz'
-      
-    - name: Add public repo remote
-      run: |
-        git remote add public https://github.com/aleskucera/public-repo.git
-        git remote -v
 
     - name: Authenticate with GitHub Token
       run: echo "${{ secrets.PUBLIC_REPO_TOKEN }}"  # Debug: Ensure token is available
       shell: bash
 
+    - name: Add public repo remote
+      run: |
+        git remote add public https://${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/yourusername/public-repo.git
+        git remote -v  # Debug: List remotes
+
+    - name: Debug remote access
+      run: |
+        git ls-remote public  # Debug: Check remote access
+
     - name: Push to public repo
+      run: |
+        git push public main --force
       env:
         PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
-      run: |
-        echo "https://${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/aleskucera/public-repo.git" > .git/credentials  # Set credentials
-        git config credential.helper 'store --file=.git/credentials'  # Use the stored credentials
-        git push public main --force
-      shell: bash
 
