@@ -1,0 +1,31 @@
+name: Sync to Public Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout private repo
+      uses: actions/checkout@v2
+      with:
+        repository: aleskucera/private-repo
+
+    - name: Set up Git
+      run: |
+        git config --global user.name 'Aleš Kučera'
+        git config --global user.email 'kuceral4@fel.cvut.cz'
+      
+    - name: Add public repo remote
+      run: git remote add public https://github.com/aleskucera/public-repo.git
+
+    - name: Push to public repo
+      env:
+        PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
+      run: |
+        git push public main --force
+
